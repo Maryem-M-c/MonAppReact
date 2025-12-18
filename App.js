@@ -1,4 +1,32 @@
-import React from 'react';
+import React, { useContext } from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { AuthProvider, AuthContext } from "./context/AuthContext";
+import LoginScreen from "./screens/LoginScreen";
+import AppDrawer from "./navigation/AppDrawer";
+
+export default function App() {
+  return (
+    <AuthProvider>
+      <Navigation />
+    </AuthProvider>
+  );
+}
+
+function Navigation() {
+  const { user } = useContext(AuthContext);
+
+  return (
+    <NavigationContainer>
+      {user ? <AppDrawer /> : <LoginScreen />}
+    </NavigationContainer>
+  );
+}
+
+
+
+
+
+/*import React from 'react';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -74,3 +102,4 @@ export default function App() {
     </SafeAreaProvider>
   );
 }
+*/
