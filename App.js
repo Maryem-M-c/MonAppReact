@@ -1,105 +1,24 @@
 import React, { useContext } from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { AuthProvider, AuthContext } from "./context/AuthContext";
-import LoginScreen from "./screens/LoginScreen";
+import AuthProvider, { AuthContext } from "./context/AuthContext";
 import AppDrawer from "./navigation/AppDrawer";
+import LoginScreen from "./screens/LoginScreen";
+import { Provider } from "react-redux";
+import { store } from "./store/store";
 
-export default function App() {
-  return (
-    <AuthProvider>
-      <Navigation />
-    </AuthProvider>
-  );
-}
-
-function Navigation() {
+function RootNavigator() {
   const { user } = useContext(AuthContext);
-
-  return (
-    <NavigationContainer>
-      {user ? <AppDrawer /> : <LoginScreen />}
-    </NavigationContainer>
-  );
-}
-
-
-
-
-
-/*import React from 'react';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Ionicons } from '@expo/vector-icons';
-
-import HomeScreen from './screens/HomeScreen';
-import DetailsScreen from './screens/DetailsScreen';
-import SettingsScreen from './screens/SettingsScreen';
-import AppBar from './screens/AppBar';
-
-const Stack = createNativeStackNavigator();
-const Tab = createBottomTabNavigator();
-
-function HomeStack() {
-  return (
-    <Stack.Navigator
-      screenOptions={{
-        headerStyle: { backgroundColor: '#007AFF' },
-        headerTintColor: '#fff',
-        headerTitleStyle: { fontWeight: 'bold' },
-      }}
-    >
-      <Stack.Screen name="Accueil" component={HomeScreen} />
-      <Stack.Screen
-        name="Details"
-        component={DetailsScreen}
-        options={{ title: 'Mes Détails Personnalisés' }}
-      />
-    </Stack.Navigator>
-  );
+  return user ? <AppDrawer /> : <LoginScreen />;
 }
 
 export default function App() {
   return (
-    <SafeAreaProvider>
-      <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
+    <Provider store={store}>
+      <AuthProvider>
         <NavigationContainer>
-          <SafeAreaView style={{ backgroundColor: '#007AFF' }}>
-            <AppBar />
-          </SafeAreaView>
-
-          <Tab.Navigator
-            screenOptions={{
-              headerShown: false,
-              tabBarActiveTintColor: 'blue',
-              tabBarInactiveTintColor: 'gray',
-              tabBarStyle: { backgroundColor: '#f0f0f0' },
-              tabBarLabelStyle: { fontSize: 14 },
-            }}
-          >
-            <Tab.Screen
-              name="Maison"
-              component={HomeStack}
-              options={{
-                tabBarIcon: ({ color, size }) => (
-                  <Ionicons name="home" size={size} color={color} />
-                ),
-              }}
-            />
-            <Tab.Screen
-              name="Paramètres"
-              component={SettingsScreen}
-              options={{
-                tabBarIcon: ({ color, size }) => (
-                  <Ionicons name="settings" size={size} color={color} />
-                ),
-              }}
-            />
-          </Tab.Navigator>
+          <RootNavigator />
         </NavigationContainer>
-      </SafeAreaView>
-    </SafeAreaProvider>
+      </AuthProvider>
+    </Provider>
   );
 }
-*/
